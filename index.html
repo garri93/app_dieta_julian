@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan Carlos García - Rutina y Dieta</title>
+    
+    <!-- Configuración para PWA e Iconos -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ff3838">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    
+    <style>
+        /* Estilos básicos con la estética oscura y neón rojo del logo */
+        body {
+            background-color: #0f0f12;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        .container {
+            background: #16161a;
+            border: 1px solid rgba(255, 56, 56, 0.2);
+            border-radius: 24px;
+            padding: 40px 30px;
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 40px rgba(255, 56, 56, 0.1);
+        }
+        .logo-container {
+            margin-bottom: 25px;
+        }
+        .logo-container img {
+            width: 120px;
+            height: 120px;
+            border-radius: 24px;
+            box-shadow: 0 0 20px rgba(255, 56, 56, 0.4);
+        }
+        h1 {
+            font-size: 24px;
+            margin: 10px 0;
+            color: #ffffff;
+            font-weight: 700;
+        }
+        p {
+            color: #a0a0ab;
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 30px;
+        }
+        .btn {
+            background: #ff3838;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(255, 56, 56, 0.4);
+        }
+        .btn:hover {
+            background: #e02f2f;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 56, 56, 0.6);
+        }
+        .btn:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="logo-container">
+            <!-- Cargará el icono de 192px que generamos en el ZIP -->
+            <img src="icon-192.png" alt="Logo Plan Carlos García">
+        </div>
+        <h1>Plan Carlos García</h1>
+        <p>Tu rutina de entrenamiento personalizada y control de dieta listos para llevar a cualquier parte.</p>
+        <button class="btn" onclick="alert('¡Pronto podrás registrar tus entrenamientos aquí!')">Ver mi Plan</button>
+    </div>
+
+    <!-- Registro del Service Worker para funcionamiento Offline y PWA -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('Service Worker registrado con éxito:', reg.scope))
+                    .catch(err => console.error('Error al registrar el Service Worker:', err));
+            });
+        }
+    </script>
+</body>
+</html>
