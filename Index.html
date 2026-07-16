@@ -3,2116 +3,437 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rutina y Dieta - Carlos García</title>
+    <title>Plan Carlos García - Rutina y Dieta</title>
+    
+    <!-- Configuración para PWA e Iconos -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ff3838">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link class="app-icon" rel="apple-touch-icon" href="icon-192.png">
+    
     <style>
-        :root {
-            --bg-color: #0f0f12;
-            --card-bg: #1a1a24;
-            --accent-color: #ff3838;
-            --accent-glow: rgba(255, 56, 56, 0.4);
-            --dieta-color: #2ed573;
-            --dieta-glow: rgba(46, 213, 115, 0.4);
-            --text-color: #ffffff;
-            --text-muted: #a4a4bc;
-            --border-color: #2c2c3d;
-            --btn-bg: #252535;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-
+        /* Estructura limpia y estética original */
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            padding: 16px;
-            max-width: 550px;
-            margin: 0 auto;
-            padding-bottom: 60px;
+            background-color: #0f0f12;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
         }
-
-        header {
+        .container {
+            background: #16161a;
+            border: 1px solid rgba(255, 56, 56, 0.2);
+            border-radius: 24px;
+            padding: 40px 30px;
             text-align: center;
-            margin-top: 10px;
-            margin-bottom: 20px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 40px rgba(255, 56, 56, 0.1);
         }
-
+        .logo-container {
+            margin-bottom: 25px;
+        }
+        .logo-container img {
+            width: 120px;
+            height: 120px;
+            border-radius: 24px;
+            box-shadow: 0 0 20px rgba(255, 56, 56, 0.4);
+        }
         h1 {
-            font-size: 1.8rem;
+            font-size: 24px;
+            margin: 10px 0;
             color: #ffffff;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            margin-bottom: 4px;
-        }
-
-        header span {
-            color: var(--accent-color);
-            text-shadow: 0 0 10px var(--accent-glow);
-        }
-
-        .subtitle {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        /* Selector Principal: Rutina vs Dieta */
-        .main-nav {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            background-color: rgba(255, 255, 255, 0.03);
-            padding: 6px;
-            border-radius: 14px;
-            border: 1px solid var(--border-color);
-        }
-
-        .main-tab {
-            flex: 1;
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            padding: 12px;
-            border-radius: 10px;
             font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
         }
-
-        .main-tab.active[data-section="rutina"] {
-            background-color: var(--accent-color);
-            color: #ffffff;
-            box-shadow: 0 4px 15px var(--accent-glow);
+        p {
+            color: #a0a0ab;
+            font-size: 15px;
+            line-height: 1.5;
+            margin-bottom: 25px;
         }
-
-        .main-tab.active[data-section="dieta"] {
-            background-color: var(--dieta-color);
-            color: #ffffff;
-            box-shadow: 0 4px 15px var(--dieta-glow);
-        }
-
-        /* Secciones Principales */
-        .main-section {
-            display: none;
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        .main-section.active {
-            display: block;
-        }
-
-        /* Navegación por Días (Rutina) y Comidas (Dieta) */
-        .sub-nav {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding-bottom: 12px;
-            margin-bottom: 20px;
-            scrollbar-width: none;
-        }
-
-        .sub-nav::-webkit-scrollbar {
-            display: none;
-        }
-
-        .sub-tab {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            color: var(--text-muted);
-            padding: 10px 18px;
-            border-radius: 50px;
-            font-weight: 700;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.2s ease;
-            flex: 1;
-            text-align: center;
-            font-size: 0.85rem;
-        }
-
-        .sub-tab.active {
-            color: #ffffff;
-        }
-
-        .sub-tab.active[data-type="rutina"] {
-            background-color: var(--accent-color);
-            border-color: var(--accent-color);
-            box-shadow: 0 4px 12px var(--accent-glow);
-        }
-
-        .sub-tab.active[data-type="dieta"] {
-            background-color: var(--dieta-color);
-            border-color: var(--dieta-color);
-            box-shadow: 0 4px 12px var(--dieta-glow);
-        }
-
-        /* Grupo Cabecera */
-        .group-header {
+        
+        /* Contenedor de entrada de series (Súper integrado y limpio) */
+        .series-box {
+            background: #1f1f27;
+            border-radius: 16px;
             padding: 15px;
-            border-radius: 12px;
             margin-bottom: 20px;
-            font-weight: 800;
-            text-align: center;
-            font-size: 1.1rem;
-            letter-spacing: 0.5px;
+            text-align: left;
+            border: 1px solid rgba(255, 56, 56, 0.1);
+        }
+        .series-box h3 {
+            margin: 0 0 12px 0;
+            color: #ff3838;
+            font-size: 14px;
             text-transform: uppercase;
+            letter-spacing: 1px;
         }
-
-        .group-header.rutina {
-            background: linear-gradient(135deg, var(--accent-color), #b31010);
-            box-shadow: 0 4px 15px rgba(255, 56, 56, 0.2);
+        .input-group {
+            margin-bottom: 12px;
         }
-
-        .group-header.dieta {
-            background: linear-gradient(135deg, var(--dieta-color), #209b4c);
-            box-shadow: 0 4px 15px rgba(46, 213, 115, 0.2);
-        }
-
-        /* Grupos de contenido */
-        .content-group {
-            display: none;
-        }
-
-        .content-group.active {
+        label {
             display: block;
+            font-size: 12px;
+            color: #a0a0ab;
+            margin-bottom: 5px;
         }
-
-        /* Tarjeta */
-        .exercise-card, .diet-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            transition: transform 0.2s, border-color 0.2s;
-        }
-
-        .diet-card {
-            border-left: 4px solid var(--dieta-color);
-        }
-
-        .exercise-title, .diet-title {
-            font-size: 1.15rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-            line-height: 1.3;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .exercise-num, .diet-num {
-            color: #fff;
-            font-size: 0.8rem;
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            font-weight: 800;
-            flex-shrink: 0;
-        }
-
-        .exercise-num {
-            background-color: var(--accent-color);
-        }
-
-        .diet-num {
-            background-color: var(--dieta-color);
-        }
-
-        /* Rejilla de especificaciones de Dieta */
-        .diet-macros {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 15px;
-            background: rgba(46, 213, 115, 0.1);
-            border: 1px solid rgba(46, 213, 115, 0.2);
-            padding: 8px 12px;
-            border-radius: 10px;
-            justify-content: space-around;
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-
-        .diet-macros span {
-            color: var(--dieta-color);
-        }
-
-        /* Alimentos dentro de opciones */
-        .food-list {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .food-item {
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.95rem;
-        }
-
-        .food-item:last-child {
-            border-bottom: none;
-        }
-
-        .food-icon {
-            font-size: 1.2rem;
-        }
-
-        /* Fila de Especificaciones (Rutina) */
-        .specs-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .spec-item {
-            background-color: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 8px;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .spec-label {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
-
-        .spec-value {
-            font-size: 1rem;
-            font-weight: 700;
-            color: #ffffff;
-        }
-
-        /* Vídeo */
-        .video-wrapper {
-            margin-top: 12px;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            background-color: #000;
-        }
-
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 */
-            height: 0;
-        }
-
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
+        input {
             width: 100%;
-            height: 100%;
-            border: 0;
-        }
-
-        .video-btn {
-            display: block;
-            background-color: var(--btn-bg);
-            color: #ffffff;
-            text-decoration: none;
-            text-align: center;
-            padding: 12px;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            margin-top: 12px;
-            border: 1px solid var(--border-color);
-            transition: background 0.2s;
-        }
-
-        .video-btn:active {
-            background-color: var(--accent-color);
-        }
-
-        /* Hidratación Checklist */
-        .section-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 16px;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-
-        .section-title {
-            font-size: 1.1rem;
-            font-weight: bold;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .checklist-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-
-        .check-btn {
-            background-color: var(--btn-bg);
-            border: 1px solid var(--border-color);
-            color: var(--text-muted);
-            padding: 12px;
-            border-radius: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
-            font-size: 0.9rem;
-        }
-
-        .check-btn.checked {
-            background-color: var(--dieta-color);
-            border-color: var(--dieta-color);
+            background: #121216;
+            border: 1px solid #2d2d3d;
+            border-radius: 8px;
+            padding: 10px;
             color: white;
-            box-shadow: 0 4px 10px var(--dieta-glow);
+            box-sizing: border-box;
+            font-size: 14px;
         }
-
-        /* Notas Textarea */
-        .notes-textarea {
-            width: 100%;
-            height: 100px;
-            background-color: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 12px;
-            color: #ffffff;
-            font-size: 0.95rem;
-            resize: none;
-            margin-top: 8px;
-        }
-
-        .notes-textarea:focus {
+        input:focus {
+            border-color: #ff3838;
             outline: none;
-            border-color: var(--dieta-color);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Lista de Series Dinámicas */
+        .set-row {
+            display: grid;
+            grid-template-columns: 1fr 2fr 2fr auto;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .set-row span {
+            font-size: 13px;
+            color: #ff3838;
+            font-weight: bold;
+            text-align: center;
+        }
+        .set-row input {
+            padding: 6px;
+            text-align: center;
+        }
+        
+        /* Botones integrados en la estética original */
+        .btn {
+            background: #ff3838;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%;
+            box-sizing: border-box;
+            transition: transform 0.2s, background-color 0.2s;
+            box-shadow: 0 4px 15px rgba(255, 56, 56, 0.4);
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background: #e02f2f;
+        }
+        .btn-add-set {
+            background: #2d2d3d;
+            color: #ffffff;
+            font-size: 12px;
+            padding: 8px;
+            border-radius: 8px;
+            box-shadow: none;
+            margin-bottom: 15px;
+        }
+        .btn-add-set:hover {
+            background: #3d3d52;
+        }
+        .btn-danger {
+            background: transparent;
+            color: #ff4d4d;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            padding: 0 5px;
         }
 
-        @media (max-width: 400px) {
-            h1 { font-size: 1.5rem; }
-            .sub-tab { padding: 10px 12px; font-size: 0.8rem; }
+        /* Botón específico para borrar del historial */
+        .btn-delete-log {
+            background: transparent;
+            color: #ff4d4d;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            padding: 0 4px;
+            transition: color 0.2s;
+        }
+        .btn-delete-log:hover {
+            color: #ff1a1a;
+        }
+
+        /* Historial y Copias de Seguridad */
+        .history-section {
+            margin-top: 25px;
+            border-top: 1px solid #2d2d3d;
+            padding-top: 20px;
+            text-align: left;
+        }
+        .history-title {
+            font-size: 14px;
+            color: #a0a0ab;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        .log-item {
+            background: #121216;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 13px;
+            border-left: 3px solid #ff3838;
+        }
+        .backup-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        .btn-sec {
+            background: #2d2d3d;
+            color: white;
+            border: none;
+            padding: 8px;
+            font-size: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        #file-input {
+            display: none;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Plan <span>Carlos García</span></h1>
-        <p class="subtitle">Rutina Interactiva & Nutrición</p>
-    </header>
+    <div class="container">
+        <div class="logo-container">
+            <img src="icon-192.png" alt="Logo">
+        </div>
+        <h1>Plan Carlos García</h1>
+        <p>Registra tus series de hoy de forma rápida.</p>
 
-    <!-- Selector de Sección Principal -->
-    <div class="main-nav">
-        <button class="main-tab active" data-section="rutina" onclick="switchSection('rutina')">🏋️ Rutina</button>
-        <button class="main-tab" data-section="dieta" onclick="switchSection('dieta')">🍏 Dieta</button>
-    </div>
+        <!-- BLOQUE DE REGISTRO INTEGRADO -->
+        <div class="series-box">
+            <h3>Nueva Entrada</h3>
+            
+            <div class="input-group">
+                <label for="ejercicio-nombre">Ejercicio:</label>
+                <input type="text" id="ejercicio-nombre" placeholder="Ej: Press de Banca">
+            </div>
 
-    <!-- ================= SECCIÓN RUTINA ================= -->
-    <div id="section-rutina" class="main-section active">
-        <!-- Pestañas de Navegación de la Rutina -->
-        <div class="sub-nav">
-            <button class="sub-tab active" data-type="rutina" onclick="switchSubGroup('rutina', 'dia-1')">DÍA 1</button>
-            <button class="sub-tab" data-type="rutina" onclick="switchSubGroup('rutina', 'dia-2')">DÍA 2</button>
-            <button class="sub-tab" data-type="rutina" onclick="switchSubGroup('rutina', 'dia-3')">DÍA 3</button>
-            <button class="sub-tab" data-type="rutina" onclick="switchSubGroup('rutina', 'dia-4')">DÍA 4</button>
+            <!-- Aquí se van sumando las filas de series -->
+            <div id="sets-list"></div>
+            
+            <button class="btn btn-add-set" onclick="agregarFilaSerie()">+ Añadir Serie</button>
         </div>
 
-        <div id="routine-content">
-            <!-- Los ejercicios se insertan aquí -->
+        <button class="btn" onclick="guardarEntrenamiento()">Guardar Registro</button>
 
-            <!-- DÍA 1 -->
-            <div id="dia-1" class="content-group rutina active">
-                <div class="group-header rutina">PECHO - HOMBRO + TRÍCEPS</div>
-    
-                <div class="exercise-card">
-                    <div class="exercise-title">
-                        <span class="exercise-num">1</span>
-                        <span>PRESS INCLINADO EN MULTIPOWER 30º</span>
-                    </div>
-                    
-                    <div class="specs-grid">
-                        <div class="spec-item">
-                            <div class="spec-label">Series</div>
-                            <div class="spec-value">3</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Reps</div>
-                            <div class="spec-value">7-9</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Descanso</div>
-                            <div class="spec-value">NECESARIO</div>
-                        </div>
-                    </div>
-        
-                    <div class="video-wrapper">
-                        <div class="video-container">
-                            <iframe src="https://www.youtube.com/embed/-idqTRSUtTk" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    <a href="https://youtu.be/-idqTRSUtTk?si=F3QwYPfLvQhf5tGz" target="_blank" class="video-btn">Abrir en la App de YouTube ↗</a>
+        <!-- HISTORIAL COMPACTO -->
+        <div class="history-section">
+            <div class="history-title">Historial Reciente</div>
+            <div id="historial"></div>
             
-                </div>
-        
-                <div class="exercise-card">
-                    <div class="exercise-title">
-                        <span class="exercise-num">2</span>
-                        <span>ELEVACIONES LATERALES CON MANCUERNA SENTADO</span>
-                    </div>
-                    
-                    <div class="specs-grid">
-                        <div class="spec-item">
-                            <div class="spec-label">Series</div>
-                            <div class="spec-value">3</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Reps</div>
-                            <div class="spec-value">8-10</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Descanso</div>
-                            <div class="spec-value">NECESARIO</div>
-                        </div>
-                    </div>
-        
-                    <div class="video-wrapper">
-                        <div class="video-container">
-                            <iframe src="https://www.youtube.com/embed/STpC1Eetx1c" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    <a href="https://youtu.be/STpC1Eetx1c?si=ouiqT2zZOwCSZU25" target="_blank" class="video-btn">Abrir en la App de YouTube ↗</a>
-            
-                </div>
-        
-                <div class="exercise-card">
-                    <div class="exercise-title">
-                        <span class="exercise-num">3</span>
-                        <span>APERTURAS EN PECK DECK</span>
-                    </div>
-                    
-                    <div class="specs-grid">
-                        <div class="spec-item">
-                            <div class="spec-label">Series</div>
-                            <div class="spec-value">3</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Reps</div>
-                            <div class="spec-value">10-12</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Descanso</div>
-                            <div class="spec-value">NECESARIO</div>
-                        </div>
-                    </div>
-        
-                    <div class="video-wrapper">
-                        <div class="video-container">
-                            <iframe src="https://www.youtube.com/embed/z-6BakJ5yoA" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    <a href="https://youtu.be/z-6BakJ5yoA?si=CFxM4Ptw1CBY171T" target="_blank" class="video-btn">Abrir en la App de YouTube ↗</a>
-            
-                </div>
-        
-                <div class="exercise-card">
-                    <div class="exercise-title">
-                        <span class="exercise-num">4</span>
-                        <span>PRESS MILITAR EN MULTIPOWER</span>
-                    </div>
-                    
-                    <div class="specs-grid">
-                        <div class="spec-item">
-                            <div class="spec-label">Series</div>
-                            <div class="spec-value">3</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Reps</div>
-                            <div class="spec-value">7-9</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Descanso</div>
-                            <div class="spec-value">NECESARIO</div>
-                        </div>
-                    </div>
-        
-                    <div class="video-wrapper">
-                        <div class="video-container">
-                            <iframe src="https://www.youtube.com/embed/tS8I5xGKxTk" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    <a href="https://youtu.be/tS8I5xGKxTk?si=wIBEVGWOmah-dsBl" target="_blank" class="video-btn">Abrir en la App de YouTube ↗</a>
-            
-                </div>
-        
-                <div class="exercise-card">
-                    <div class="exercise-title">
-                        <span class="exercise-num">5</span>
-                        <span>PRESS PLANO EN MÁQUINA</span>
-                    </div>
-                    
-                    <div class="specs-grid">
-                        <div class="spec-item">
-                            <div class="spec-label">Series</div>
-                            <div class="spec-value">3</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Reps</div>
-                            <div class="spec-value">7-9</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Descanso</div>
-                            <div class="spec-value">NECESARIO</div>
-                        </div>
-                    </div>
-        
-                    <div class="video-wrapper">
-                        <div class="video-container">
-                            <iframe src="https://www.youtube.com/embed/KTofOPxxz-M" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    <a href="https://youtu.be/KTofOPxxz-M?si=RH-ErmI1gEMKgi4N" target="_blank" class="video-btn">Abrir en la App de YouTube ↗</a>
-            
-                </div>
-        
-                <div class="exercise-card">
-                    <div class="exercise-title">
-                        <span class="exercise-num">6</span>
-                        <span>ELEVACIÓN UNILATERAL EN POLEA BAJA</span>
-                    </div>
-                    
-                    <div class="specs-grid">
-                        <div class="spec-item">
-                            <div class="spec-label">Series</div>
-                            <div class="spec-value">3</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Reps</div>
-                            <div class="spec-value">9-10</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Descanso</div>
-                            <div class="spec-value">NECESARIO</div>
-                        </div>
-                    </div>
-        
-                    <div class="video-wrapper">
-                        <div class="video-container">
-                            <iframe src="https://www.youtube.com/embed/alCAsC8tVH8" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    <a href="https://youtu.be/alCAsC8tVH8?si=xFUe6hC2Oc7s2O7L" target="_blank" class="video-btn">Abrir en la App de YouTube ↗</a>
-            
-                </div>
-        
-                <div class="exercise-card">
-                    <div class="exercise-title">
-                        <span class="exercise-num">7</span>
-                        <span>EXTENSIÓN DE TRÍCEPS CON CUERDA</span>
-                    </div>
-                    
-                    <div class="specs-grid">
-                        <div class="spec-item">
-                            <div class="spec-label">Series</div>
-                            <div class="spec-value">3</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Reps</div>
-                            <div class="spec-value">9-11</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Descanso</div>
-                            <div class="spec-value">NECESARIO</div>
-                        </div>
-                    </div>
-        
-                    <div class="video-wrapper">
-                        <div class="video-container">
-                            <iframe src="https://www.youtube.com/embed/WtHPJzHPf_A" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    <a href="https://youtu.be/WtHPJzHPf_A?si=Ey3hBKs_juElYwpW" target="_blank" class="video-btn">Abrir en la App de YouTube ↗</a>
-            
-                </div>
-        
+            <div class="backup-buttons">
+                <button class="btn-sec" onclick="exportarDatos()">Exportar copia</button>
+                <button class="btn-sec" onclick="document.getElementById('file-input').click()">Importar copia</button>
             </div>
-    
-            <!-- DÍA 2 -->
-            <div id="dia-2" class="content-group rutina">
-                <div class="group-header rutina">ESPALDA + HOMBRO POSTERIOR + BICEPS</div>
-    
-                <div class="exercise-card">
-                    <div class="exercise-title">
-                        <span class="exercise-num">1</span>
-                        <span>REMO UNILATERAL GIRONDA</span>
-                    </div>
-                    
-                    <div class="specs-grid">
-                        <div class="spec-item">
-                            <div class="spec-label">Series</div>
-                            <div class="spec-value">3</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Reps</div>
-                            <div class="spec-value">8-9</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Descanso</div>
-                            <div class="spec-value">NECESARIO</div>
-                        </div>
-                    </div>
-        
-                    <div class="video-wrapper">
-                        <div class="video-container">
-                            <iframe src="https://www.youtube.com/embed/LHoNSXu286k" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    <a href="https://youtu.be/LHoNSXu286k?si=QPm-koHRTrubyyuF" target="_blank" class="video-btn">Abrir en la App de YouTube ↗</a>
-            
-                </div>
-        
-                <div class="exercise-card">
-                    <div class="exercise-title">
-                        <span class="exercise-num">2</span>
-                        <span>REMO GIRONDA AGARRE PRONO</span>
-                    </div>
-                    
-                    <div class="specs-grid">
-                        <div class="spec-item">
-                            <div class="spec-label">Series</div>
-                            <div class="spec-value">3</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Reps</div>
-                            <div class="spec-value">8-9</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Descanso</div>
-                            <div class="spec-value">NECESARIO</div>
-                        </div>
-                    </div>
-        
-                    <div class="video-wrapper">
-                        <div class="video-container">
-                            <iframe src="https://www.youtube.com/embed/IiJLPyfEI30" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    <a href="https://youtu.be/IiJLPyfEI30?si=meQX_2PWjOjiwzUZ" target="_blank" class="video-btn">Abrir en la App de YouTube ↗</a>
-            
-                </div>
-        
-                <div class="exercise-card">
-                    <div class="exercise-title">
-                        <span class="exercise-num">3</span>
-                        <span>JALÓN AGARRE SUPINO</span>
-                    </div>
-                    
-                    <div class="specs-grid">
-                        <div class="spec-item">
-                            <div class="spec-label">Series</div>
-                            <div class="spec-value">3</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Reps</div>
-                            <div class="spec-value">10-11</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Descanso</div>
-                            <div class="spec-value">NECESARIO</div>
-                        </div>
-                    </div>
-        
-                    <div class="video-wrapper">
-                        <div class="video-container">
-                            <iframe src="https://www.youtube.com/embed/p0AzTz-oMUE" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    <a href="https://youtu.be/p0AzTz-oMUE?si=kFx3sjKpp7yQToTa" target="_blank" class="video-btn">Abrir en la App de YouTube ↗</a>
-            
-                </div>
-        
-                <div class="exercise-card">
-                    <div class="exercise-title">
-                        <span class="exercise-num">4</span>
-                        <span>PULLOVER CON CUERDA</span>
-                    </div>
-                    
-                    <div class="specs-grid">
-                        <div class="spec-item">
-                            <div class="spec-label">Series</div>
-                            <div class="spec-value">3</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Reps</div>
-                            <div class="spec-value">9-11</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Descanso</div>
-                            <div class="spec-value">NECESARIO</div>
-                        </div>
-                    </div>
-        
-                    <div class="video-wrapper">
-                        <div class="video-container">
-                            <iframe src="https://www.youtube.com/embed/NMEWNROh3VY" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    <a href="https://youtu.be/NMEWNROh3VY?si=TTLbrYqX0T1OWH6W" target="_blank" class="video-btn">Abrir en la App de YouTube ↗</a>
-            
-                </div>
-        
-                <div class="exercise-card">
-                    <div class="exercise-title">
-                        <span class="exercise-num">5</span>
-                        <span>HOMBRO POSTERIOR EN PECK DECK</span>
-                    </div>
-                    
-                    <div class="specs-grid">
-                        <div class="spec-item">
-                            <div class="spec-label">Series</div>
-                            <div class="spec-value">3</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Reps</div>
-                            <div class="spec-value">10-11</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Descanso</div>
-                            <div class="spec-value">NECESARIO</div>
-                        </div>
-                    </div>
-        
-                    <div class="video-wrapper">
-                        <div class="video-container">
-                            <iframe src="https://www.youtube.com/embed/ayQDkarAdf0" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    <a href="https://youtu.be/ayQDkarAdf0?si=sFb3DHRXAsIEIzT4" target="_blank" class="video-btn">Abrir en la App de YouTube ↗</a>
-            
-                </div>
-        
-                <div class="exercise-card">
-                    <div class="exercise-title">
-                        <span class="exercise-num">6</span>
-                        <span>CURL ALTERNO SENTADO</span>
-                    </div>
-                    
-                    <div class="specs-grid">
-                        <div class="spec-item">
-                            <div class="spec-label">Series</div>
-                            <div class="spec-value">3</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Reps</div>
-                            <div class="spec-value">8-10</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Descanso</div>
-                            <div class="spec-value">NECESARIO</div>
-                        </div>
-                    </div>
-        
-                    <div class="video-wrapper">
-                        <div class="video-container">
-                            <iframe src="https://www.youtube.com/embed/KdF8JqPngP4" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    <a href="https://youtu.be/KdF8JqPngP4?si=V941AuJhZqLUeIh3" target="_blank" class="video-btn">Abrir en la App de YouTube ↗</a>
-            
-                </div>
-        
-            </div>
-    
-            <!-- DÍA 3 -->
-            <div id="dia-3" class="content-group rutina">
-                <div class="group-header rutina">PIERNA</div>
-    
-                <div class="exercise-card">
-                    <div class="exercise-title">
-                        <span class="exercise-num">1</span>
-                        <span>ADDUCTORES EN MÁQUINA</span>
-                    </div>
-                    
-                    <div class="specs-grid">
-                        <div class="spec-item">
-                            <div class="spec-label">Series</div>
-                            <div class="spec-value">3</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Reps</div>
-                            <div class="spec-value">10-12</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Descanso</div>
-                            <div class="spec-value">NECESARIO</div>
-                        </div>
-                    </div>
-        
-                    <div class="video-wrapper">
-                        <div class="video-container">
-                            <iframe src="https://www.youtube.com/embed/ylLEP5w-kSw" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    <a href="https://youtu.be/ylLEP5w-kSw?si=-U6dplXx4DeS6kni" target="_blank" class="video-btn">Abrir en la App de YouTube ↗</a>
-            
-                </div>
-        
-                <div class="exercise-card">
-                    <div class="exercise-title">
-                        <span class="exercise-num">2</span>
-                        <span>SENTADILLA EN HACKA</span>
-                    </div>
-                    
-                    <div class="specs-grid">
-                        <div class="spec-item">
-                            <div class="spec-label">Series</div>
-                            <div class="spec-value">3</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Reps</div>
-                            <div class="spec-value">7-9</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Descanso</div>
-                            <div class="spec-value">NECESARIO</div>
-                        </div>
-                    </div>
-        
-                    <div class="video-wrapper">
-                        <div class="video-container">
-                            <iframe src="https://www.youtube.com/embed/LwPBz_B1Juc" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    <a href="https://youtu.be/LwPBz_B1Juc?si=4j1sP9TfSBFjqvYK" target="_blank" class="video-btn">Abrir en la App de YouTube ↗</a>
-            
-                </div>
-        
-                <div class="exercise-card">
-                    <div class="exercise-title">
-                        <span class="exercise-num">3</span>
-                        <span>EXTENSIÓN DE CUÁDRICEPS EN MÁQUINA</span>
-                    </div>
-                    
-                    <div class="specs-grid">
-                        <div class="spec-item">
-                            <div class="spec-label">Series</div>
-                            <div class="spec-value">3</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Reps</div>
-                            <div class="spec-value">8-10</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Descanso</div>
-                            <div class="spec-value">NECESARIO</div>
-                        </div>
-                    </div>
-        
-                    <div class="video-wrapper">
-                        <div class="video-container">
-                            <iframe src="https://www.youtube.com/embed/DApvfa6PqS8" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    <a href="https://youtu.be/DApvfa6PqS8?si=1xhu5eQEwx9hGD2U" target="_blank" class="video-btn">Abrir en la App de YouTube ↗</a>
-            
-                </div>
-        
-                <div class="exercise-card">
-                    <div class="exercise-title">
-                        <span class="exercise-num">4</span>
-                        <span>PRENSA</span>
-                    </div>
-                    
-                    <div class="specs-grid">
-                        <div class="spec-item">
-                            <div class="spec-label">Series</div>
-                            <div class="spec-value">3</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Reps</div>
-                            <div class="spec-value">9-10</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Descanso</div>
-                            <div class="spec-value">NECESARIO</div>
-                        </div>
-                    </div>
-        
-                    <div class="video-wrapper">
-                        <div class="video-container">
-                            <iframe src="https://www.youtube.com/embed/OV9Xd6MDFjw" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    <a href="https://youtu.be/OV9Xd6MDFjw?si=nI7oAK968LQtgV2a" target="_blank" class="video-btn">Abrir en la App de YouTube ↗</a>
-            
-                </div>
-        
-                <div class="exercise-card">
-                    <div class="exercise-title">
-                        <span class="exercise-num">5</span>
-                        <span>PESO MUERTO RUMANO MANCUERNA</span>
-                    </div>
-                    
-                    <div class="specs-grid">
-                        <div class="spec-item">
-                            <div class="spec-label">Series</div>
-                            <div class="spec-value">3</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Reps</div>
-                            <div class="spec-value">10-11</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Descanso</div>
-                            <div class="spec-value">NECESARIO</div>
-                        </div>
-                    </div>
-        
-                    <div class="video-wrapper">
-                        <div class="video-container">
-                            <iframe src="https://www.youtube.com/embed/IKZTbmiDVAM" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    <a href="https://youtu.be/IKZTbmiDVAM?si=uVuayBYjunSpFKM2" target="_blank" class="video-btn">Abrir en la App de YouTube ↗</a>
-            
-                </div>
-        
-                <div class="exercise-card">
-                    <div class="exercise-title">
-                        <span class="exercise-num">6</span>
-                        <span>HIP TRUST EN MÁQUINA</span>
-                    </div>
-                    
-                    <div class="specs-grid">
-                        <div class="spec-item">
-                            <div class="spec-label">Series</div>
-                            <div class="spec-value">3</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Reps</div>
-                            <div class="spec-value">8-9</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Descanso</div>
-                            <div class="spec-value">NECESARIO</div>
-                        </div>
-                    </div>
-        
-                    <div class="video-wrapper">
-                        <div class="video-container">
-                            <iframe src="https://www.youtube.com/embed/JPqmSbH6cdY" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    <a href="https://youtu.be/JPqmSbH6cdY?si=BvJQu6tBOzXf1lZr" target="_blank" class="video-btn">Abrir en la App de YouTube ↗</a>
-            
-                </div>
-        
-            </div>
-    
-            <!-- DÍA 4 -->
-            <div id="dia-4" class="content-group rutina">
-                <div class="group-header rutina">TORSO</div>
-    
-                <div class="exercise-card">
-                    <div class="exercise-title">
-                        <span class="exercise-num">1</span>
-                        <span>PRESS INCLINADO EN MULTIPOWER 30º</span>
-                    </div>
-                    
-                    <div class="specs-grid">
-                        <div class="spec-item">
-                            <div class="spec-label">Series</div>
-                            <div class="spec-value">3</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Reps</div>
-                            <div class="spec-value">7-8</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Descanso</div>
-                            <div class="spec-value">NECESARIO</div>
-                        </div>
-                    </div>
-        
-                    <div class="video-wrapper">
-                        <div class="video-container">
-                            <iframe src="https://www.youtube.com/embed/-idqTRSUtTk" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    <a href="https://youtu.be/-idqTRSUtTk?si=F3QwYPfLvQhf5tGz" target="_blank" class="video-btn">Abrir en la App de YouTube ↗</a>
-            
-                </div>
-        
-                <div class="exercise-card">
-                    <div class="exercise-title">
-                        <span class="exercise-num">2</span>
-                        <span>REMO EN MULTIPOWER AGARRE PRONADO</span>
-                    </div>
-                    
-                    <div class="specs-grid">
-                        <div class="spec-item">
-                            <div class="spec-label">Series</div>
-                            <div class="spec-value">3</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Reps</div>
-                            <div class="spec-value">8-9</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Descanso</div>
-                            <div class="spec-value">NECESARIO</div>
-                        </div>
-                    </div>
-        
-                    <div class="video-wrapper">
-                        <div class="video-container">
-                            <iframe src="https://www.youtube.com/embed/9q25RscX-YU" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    <a href="https://youtu.be/9q25RscX-YU?si=ll3CI1IhoFnGFgS4" target="_blank" class="video-btn">Abrir en la App de YouTube ↗</a>
-            
-                </div>
-        
-                <div class="exercise-card">
-                    <div class="exercise-title">
-                        <span class="exercise-num">3</span>
-                        <span>ELEVACIONES LATERALES EN MÁQUINA</span>
-                    </div>
-                    
-                    <div class="specs-grid">
-                        <div class="spec-item">
-                            <div class="spec-label">Series</div>
-                            <div class="spec-value">3</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Reps</div>
-                            <div class="spec-value">8-9</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Descanso</div>
-                            <div class="spec-value">NECESARIO</div>
-                        </div>
-                    </div>
-        
-                    <div class="video-wrapper">
-                        <div class="video-container">
-                            <iframe src="https://www.youtube.com/embed/4cfzQsRjt-Y" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    <a href="https://youtu.be/4cfzQsRjt-Y?si=RdbXjJa7ZqzXw6hK" target="_blank" class="video-btn">Abrir en la App de YouTube ↗</a>
-            
-                </div>
-        
-                <div class="exercise-card">
-                    <div class="exercise-title">
-                        <span class="exercise-num">4</span>
-                        <span>APERTURAS CON MANCUERNA</span>
-                    </div>
-                    
-                    <div class="specs-grid">
-                        <div class="spec-item">
-                            <div class="spec-label">Series</div>
-                            <div class="spec-value">3</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Reps</div>
-                            <div class="spec-value">10-11</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Descanso</div>
-                            <div class="spec-value">NECESARIO</div>
-                        </div>
-                    </div>
-        
-                    <div class="video-wrapper">
-                        <div class="video-container">
-                            <iframe src="https://www.youtube.com/embed/sa9yYaLXJyM" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    <a href="https://youtu.be/sa9yYaLXJyM?si=SpFM0PJ9cCuZL1ga" target="_blank" class="video-btn">Abrir en la App de YouTube ↗</a>
-            
-                </div>
-        
-                <div class="exercise-card">
-                    <div class="exercise-title">
-                        <span class="exercise-num">5</span>
-                        <span>JALÓN AGARRE PRONADO</span>
-                    </div>
-                    
-                    <div class="specs-grid">
-                        <div class="spec-item">
-                            <div class="spec-label">Series</div>
-                            <div class="spec-value">3</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Reps</div>
-                            <div class="spec-value">9-10</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Descanso</div>
-                            <div class="spec-value">NECESARIO</div>
-                        </div>
-                    </div>
-        
-                    <div class="video-wrapper">
-                        <div class="video-container">
-                            <iframe src="https://www.youtube.com/embed/ypiROQyIx38" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    <a href="https://youtu.be/ypiROQyIx38?si=lcd_0oKLd2155jM4" target="_blank" class="video-btn">Abrir en la App de YouTube ↗</a>
-            
-                </div>
-        
-                <div class="exercise-card">
-                    <div class="exercise-title">
-                        <span class="exercise-num">6</span>
-                        <span>CURL BÍCEPS MARTILLO CON MANCUERNA</span>
-                    </div>
-                    
-                    <div class="specs-grid">
-                        <div class="spec-item">
-                            <div class="spec-label">Series</div>
-                            <div class="spec-value">3</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Reps</div>
-                            <div class="spec-value">10-12</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Descanso</div>
-                            <div class="spec-value">NECESARIO</div>
-                        </div>
-                    </div>
-        
-                    <div class="video-wrapper">
-                        <div class="video-container">
-                            <iframe src="https://www.youtube.com/embed/JW84SXwBSbs" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    <a href="https://youtu.be/JW84SXwBSbs?si=ojxZBfOj9yBkgc57" target="_blank" class="video-btn">Abrir en la App de YouTube ↗</a>
-            
-                </div>
-        
-                <div class="exercise-card">
-                    <div class="exercise-title">
-                        <span class="exercise-num">7</span>
-                        <span>EXTENSIÓN DE TRÍCEPS TRAS NUCA</span>
-                    </div>
-                    
-                    <div class="specs-grid">
-                        <div class="spec-item">
-                            <div class="spec-label">Series</div>
-                            <div class="spec-value">3</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Reps</div>
-                            <div class="spec-value">10-11</div>
-                        </div>
-                        <div class="spec-item">
-                            <div class="spec-label">Descanso</div>
-                            <div class="spec-value">NECESARIO</div>
-                        </div>
-                    </div>
-        
-                    <div class="video-wrapper">
-                        <div class="video-container">
-                            <iframe src="https://www.youtube.com/embed/4N7S6Gan70I" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    <a href="https://youtu.be/4N7S6Gan70I?si=FSsWNIQ0SZTyggiw" target="_blank" class="video-btn">Abrir en la App de YouTube ↗</a>
-            
-                </div>
-        
-            </div>
-    
+            <input type="file" id="file-input" accept=".json" onchange="importarDatos(event)">
         </div>
     </div>
 
-    <!-- ================= SECCIÓN DIETA ================= -->
-    <div id="section-dieta" class="main-section">
-        <!-- Pestañas de Navegación de la Dieta -->
-        <div class="sub-nav">
-            <button class="sub-tab active" data-type="dieta" onclick="switchSubGroup('dieta', 'comida-1')">COMIDA 1</button>
-            <button class="sub-tab" data-type="dieta" onclick="switchSubGroup('dieta', 'comida-2')">COMIDA 2</button>
-            <button class="sub-tab" data-type="dieta" onclick="switchSubGroup('dieta', 'comida-3')">COMIDA 3</button>
-            <button class="sub-tab" data-type="dieta" onclick="switchSubGroup('dieta', 'comida-4')">COMIDA 4</button>
-        </div>
-
-        <div id="diet-content">
-
-            <!-- COMIDA 1 -->
-            <div id="comida-1" class="content-group dieta active">
-                <div class="group-header dieta">🍳 COMIDA 1</div>
-                <div class="diet-macros">
-                    <span>30g Proteína · 15g Grasa · 70g Carbohidratos</span>
-                </div>
-    
-                <div class="diet-card">
-                    <div class="diet-title">
-                        <span class="diet-num">1</span>
-                        <span>Opción 1</span>
-                    </div>
-                    <ul class="food-list">
-        
-                        <li class="food-item">
-                            <span class="food-icon">🍞</span>
-                            <span>120g Pan blanco o integral</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🥚</span>
-                            <span>2 Huevos enteros</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🥑</span>
-                            <span>40g Aguacate</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🍎</span>
-                            <span>1 Fruta</span>
-                        </li>
-            
-                    </ul>
-                </div>
-        
-                <div class="diet-card">
-                    <div class="diet-title">
-                        <span class="diet-num">2</span>
-                        <span>Opción 2</span>
-                    </div>
-                    <ul class="food-list">
-        
-                        <li class="food-item">
-                            <span class="food-icon">🥞</span>
-                            <span>Pancakes: 60g avena molida + 1 huevo entero + 130ml claras + 80g plátano + 5ml aceite de oliva</span>
-                        </li>
-            
-                    </ul>
-                </div>
-        
-                <div class="diet-card">
-                    <div class="diet-title">
-                        <span class="diet-num">3</span>
-                        <span>Opción 3</span>
-                    </div>
-                    <ul class="food-list">
-        
-                        <li class="food-item">
-                            <span class="food-icon">🍞</span>
-                            <span>120g Pan blanco o integral</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🍗</span>
-                            <span>80g Jamón cocido o pavo</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🧀</span>
-                            <span>40g Queso bajo en grasa</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🍎</span>
-                            <span>1 Fruta</span>
-                        </li>
-            
-                    </ul>
-                </div>
-        
-                <div class="diet-card">
-                    <div class="diet-title">
-                        <span class="diet-num">4</span>
-                        <span>Opción 4</span>
-                    </div>
-                    <ul class="food-list">
-        
-                        <li class="food-item">
-                            <span class="food-icon">🥣</span>
-                            <span>200g Yogur griego natural</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🌾</span>
-                            <span>45g Avena o copos</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🥜</span>
-                            <span>15g Frutos secos</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🍫</span>
-                            <span>10g Chocolate 85%</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🍎</span>
-                            <span>1 Fruta</span>
-                        </li>
-            
-                    </ul>
-                </div>
-        
-                <div class="diet-card">
-                    <div class="diet-title">
-                        <span class="diet-num">5</span>
-                        <span>Opción 5</span>
-                    </div>
-                    <ul class="food-list">
-        
-                        <li class="food-item">
-                            <span class="food-icon">🍞</span>
-                            <span>120g Pan blanco o integral</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🍖</span>
-                            <span>80g Jamón serrano o lomo embuchado</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🧀</span>
-                            <span>60g Queso cottage</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🍎</span>
-                            <span>1 Fruta</span>
-                        </li>
-            
-                    </ul>
-                </div>
-        
-                <div class="diet-card">
-                    <div class="diet-title">
-                        <span class="diet-num">6</span>
-                        <span>Opción 6</span>
-                    </div>
-                    <ul class="food-list">
-        
-                        <li class="food-item">
-                            <span class="food-icon">🍞</span>
-                            <span>120g Pan blanco o integral</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🍗</span>
-                            <span>120g Jamón cocido o pavo</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🧀</span>
-                            <span>25g Philadelphia light</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🍎</span>
-                            <span>1 Fruta</span>
-                        </li>
-            
-                    </ul>
-                </div>
-        
-            </div>
-    
-            <!-- COMIDA 2 -->
-            <div id="comida-2" class="content-group dieta">
-                <div class="group-header dieta">🍗 COMIDA 2</div>
-                <div class="diet-macros">
-                    <span>45g Proteína · 15g Grasa · 70g Carbohidratos</span>
-                </div>
-    
-                <div class="diet-card">
-                    <div class="diet-title">
-                        <span class="diet-num">1</span>
-                        <span>Opción 1</span>
-                    </div>
-                    <ul class="food-list">
-        
-                        <li class="food-item">
-                            <span class="food-icon">🍚</span>
-                            <span>75g Arroz (en seco)</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🍗</span>
-                            <span>200g Pechuga de pollo o pavo</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🥑</span>
-                            <span>35g Aguacate</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🥗</span>
-                            <span>Verdura o ensalada al gusto</span>
-                        </li>
-            
-                    </ul>
-                </div>
-        
-                <div class="diet-card">
-                    <div class="diet-title">
-                        <span class="diet-num">2</span>
-                        <span>Opción 2</span>
-                    </div>
-                    <ul class="food-list">
-        
-                        <li class="food-item">
-                            <span class="food-icon">🍝</span>
-                            <span>75g Pasta (en seco)</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🥩</span>
-                            <span>180g Carne de vacuno magra</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🧀</span>
-                            <span>25g Queso rallado light</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🥗</span>
-                            <span>Verdura o ensalada al gusto</span>
-                        </li>
-            
-                    </ul>
-                </div>
-        
-                <div class="diet-card">
-                    <div class="diet-title">
-                        <span class="diet-num">3</span>
-                        <span>Opción 3</span>
-                    </div>
-                    <ul class="food-list">
-        
-                        <li class="food-item">
-                            <span class="food-icon">🥔</span>
-                            <span>250g Patata</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🥚</span>
-                            <span>2 Huevos enteros</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🍗</span>
-                            <span>100g Jamón cocido o pavo</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🥗</span>
-                            <span>Verdura o ensalada al gusto</span>
-                        </li>
-            
-                    </ul>
-                </div>
-        
-                <div class="diet-card">
-                    <div class="diet-title">
-                        <span class="diet-num">4</span>
-                        <span>Opción 4</span>
-                    </div>
-                    <ul class="food-list">
-        
-                        <li class="food-item">
-                            <span class="food-icon">🫘</span>
-                            <span>300g Legumbres cocidas</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🐟</span>
-                            <span>2 Latas de atún al natural</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🥚</span>
-                            <span>1 Huevo cocido</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🫒</span>
-                            <span>5ml Aceite de oliva</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🥗</span>
-                            <span>Verdura o ensalada al gusto</span>
-                        </li>
-            
-                    </ul>
-                </div>
-        
-                <div class="diet-card">
-                    <div class="diet-title">
-                        <span class="diet-num">5</span>
-                        <span>Opción 5</span>
-                    </div>
-                    <ul class="food-list">
-        
-                        <li class="food-item">
-                            <span class="food-icon">🍞</span>
-                            <span>120g Pan blanco o integral</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🍗</span>
-                            <span>200g Pechuga de pollo o pavo</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🥑</span>
-                            <span>25g Aguacate</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🧀</span>
-                            <span>25g Queso light</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🥗</span>
-                            <span>Verdura o ensalada al gusto</span>
-                        </li>
-            
-                    </ul>
-                </div>
-        
-                <div class="diet-card">
-                    <div class="diet-title">
-                        <span class="diet-num">6</span>
-                        <span>Opción 6</span>
-                    </div>
-                    <ul class="food-list">
-        
-                        <li class="food-item">
-                            <span class="food-icon">🫓</span>
-                            <span>3 Tortillas de trigo pequeñas (110g)</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🍗</span>
-                            <span>200g Pechuga de pollo o pavo</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🥑</span>
-                            <span>25g Aguacate o guacamole</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🧀</span>
-                            <span>25g Queso light rallado</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🥗</span>
-                            <span>Verdura o ensalada al gusto</span>
-                        </li>
-            
-                    </ul>
-                </div>
-        
-            </div>
-    
-            <!-- COMIDA 3 (Snack) -->
-            <div id="comida-3" class="content-group dieta">
-                <div class="group-header dieta">🥛 COMIDA 3 (Snack)</div>
-                <div class="diet-macros">
-                    <span>Snack proteico de tarde</span>
-                </div>
-    
-                <div class="diet-card">
-                    <div class="diet-title">
-                        <span class="diet-num">1</span>
-                        <span>Opción 1</span>
-                    </div>
-                    <ul class="food-list">
-        
-                        <li class="food-item">
-                            <span class="food-icon">🥣</span>
-                            <span>200g Yogur griego light</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🍯</span>
-                            <span>10g Miel</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🌾</span>
-                            <span>30g Copos de maíz o avena</span>
-                        </li>
-            
-                    </ul>
-                </div>
-        
-                <div class="diet-card">
-                    <div class="diet-title">
-                        <span class="diet-num">2</span>
-                        <span>Opción 2</span>
-                    </div>
-                    <ul class="food-list">
-        
-                        <li class="food-item">
-                            <span class="food-icon">🍞</span>
-                            <span>60g Pan blanco o integral</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🍗</span>
-                            <span>50g Jamón cocido o pavo</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🧀</span>
-                            <span>1 Loncha de queso light</span>
-                        </li>
-            
-                    </ul>
-                </div>
-        
-                <div class="diet-card">
-                    <div class="diet-title">
-                        <span class="diet-num">3</span>
-                        <span>Opción 3</span>
-                    </div>
-                    <ul class="food-list">
-        
-                        <li class="food-item">
-                            <span class="food-icon">🍞</span>
-                            <span>60g Pan blanco o integral</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🍖</span>
-                            <span>60g Jamón serrano</span>
-                        </li>
-            
-                    </ul>
-                </div>
-        
-            </div>
-    
-            <!-- COMIDA 4 -->
-            <div id="comida-4" class="content-group dieta">
-                <div class="group-header dieta">🥩 COMIDA 4</div>
-                <div class="diet-macros">
-                    <span>45g Proteína · 15g Grasa · 80g Carbohidratos</span>
-                </div>
-    
-                <div class="diet-card">
-                    <div class="diet-title">
-                        <span class="diet-num">1</span>
-                        <span>Opción 1</span>
-                    </div>
-                    <ul class="food-list">
-        
-                        <li class="food-item">
-                            <span class="food-icon">🥔</span>
-                            <span>300g Patata o boniato</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🥩</span>
-                            <span>200g Carne roja magra</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🥗</span>
-                            <span>Verdura o ensalada al gusto</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🍫</span>
-                            <span>10g Chocolate 85%</span>
-                        </li>
-            
-                    </ul>
-                </div>
-        
-                <div class="diet-card">
-                    <div class="diet-title">
-                        <span class="diet-num">2</span>
-                        <span>Opción 2</span>
-                    </div>
-                    <ul class="food-list">
-        
-                        <li class="food-item">
-                            <span class="food-icon">🥔</span>
-                            <span>300g Patata o boniato</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🐟</span>
-                            <span>200g Pescado blanco</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🫒</span>
-                            <span>5ml Aceite de oliva</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🥗</span>
-                            <span>Verdura o ensalada al gusto</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🍫</span>
-                            <span>15g Chocolate 85%</span>
-                        </li>
-            
-                    </ul>
-                </div>
-        
-                <div class="diet-card">
-                    <div class="diet-title">
-                        <span class="diet-num">3</span>
-                        <span>Opción 3</span>
-                    </div>
-                    <ul class="food-list">
-        
-                        <li class="food-item">
-                            <span class="food-icon">🍞</span>
-                            <span>130g Pan cristal</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🥩</span>
-                            <span>200g Carne de vacuno</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🧀</span>
-                            <span>25g Queso light</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🥗</span>
-                            <span>Verdura o ensalada al gusto</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🍫</span>
-                            <span>15g Chocolate 85%</span>
-                        </li>
-            
-                    </ul>
-                </div>
-        
-                <div class="diet-card">
-                    <div class="diet-title">
-                        <span class="diet-num">4</span>
-                        <span>Opción 4</span>
-                    </div>
-                    <ul class="food-list">
-        
-                        <li class="food-item">
-                            <span class="food-icon">🫓</span>
-                            <span>3 Tortillas de trigo (110g)</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🍗</span>
-                            <span>200g Pechuga de pollo o pavo</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🥑</span>
-                            <span>30g Aguacate o guacamole</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🥗</span>
-                            <span>Verduras variadas</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🍫</span>
-                            <span>15g Chocolate 85%</span>
-                        </li>
-            
-                    </ul>
-                </div>
-        
-                <div class="diet-card">
-                    <div class="diet-title">
-                        <span class="diet-num">5</span>
-                        <span>Opción 5</span>
-                    </div>
-                    <ul class="food-list">
-        
-                        <li class="food-item">
-                            <span class="food-icon">🥔</span>
-                            <span>300g Patata o boniato</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🍔</span>
-                            <span>200g Hamburguesa de pollo</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🥑</span>
-                            <span>30g Aguacate</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🥗</span>
-                            <span>Verdura o ensalada al gusto</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🍫</span>
-                            <span>15g Chocolate 85%</span>
-                        </li>
-            
-                    </ul>
-                </div>
-        
-                <div class="diet-card">
-                    <div class="diet-title">
-                        <span class="diet-num">6</span>
-                        <span>Opción 6</span>
-                    </div>
-                    <ul class="food-list">
-        
-                        <li class="food-item">
-                            <span class="food-icon">🍞</span>
-                            <span>130g Pan blanco o integral</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🍗</span>
-                            <span>200g Pechuga de pollo o pavo</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🧀</span>
-                            <span>25g Queso light</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🥗</span>
-                            <span>Verdura o ensalada al gusto</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🍫</span>
-                            <span>15g Chocolate 85%</span>
-                        </li>
-            
-                    </ul>
-                </div>
-        
-                <div class="diet-card">
-                    <div class="diet-title">
-                        <span class="diet-num">7</span>
-                        <span>Opción 7</span>
-                    </div>
-                    <ul class="food-list">
-        
-                        <li class="food-item">
-                            <span class="food-icon">🍞</span>
-                            <span>130g Pan blanco o integral</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🥚</span>
-                            <span>2 Huevos enteros</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🍗</span>
-                            <span>120g Jamón cocido o pavo</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🥗</span>
-                            <span>Verdura o ensalada al gusto</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🍫</span>
-                            <span>15g Chocolate 85%</span>
-                        </li>
-            
-                    </ul>
-                </div>
-        
-                <div class="diet-card">
-                    <div class="diet-title">
-                        <span class="diet-num">8</span>
-                        <span>Opción 8</span>
-                    </div>
-                    <ul class="food-list">
-        
-                        <li class="food-item">
-                            <span class="food-icon">🍞</span>
-                            <span>130g Pan blanco o integral</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🍗</span>
-                            <span>200g Jamón cocido o pavo</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🧀</span>
-                            <span>25g Queso light</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🥗</span>
-                            <span>Verdura o ensalada al gusto</span>
-                        </li>
-            
-                        <li class="food-item">
-                            <span class="food-icon">🍫</span>
-                            <span>15g Chocolate 85%</span>
-                        </li>
-            
-                    </ul>
-                </div>
-        
-            </div>
-    
-        </div>
-
-        <!-- Checklist de Hidratación -->
-        <div class="section-card">
-            <div class="section-title">💧 Registro de Hidratación</div>
-            <div class="checklist-grid">
-                <button class="check-btn" onclick="toggleWater(this, '0.5L')">0.5 L</button>
-                <button class="check-btn" onclick="toggleWater(this, '1.0L')">1.0 L</button>
-                <button class="check-btn" onclick="toggleWater(this, '1.5L')">1.5 L</button>
-                <button class="check-btn" onclick="toggleWater(this, '2.0L')">2.0 L</button>
-                <button class="check-btn" onclick="toggleWater(this, '2.5L')">2.5 L</button>
-                <button class="check-btn" onclick="toggleWater(this, '3.0L')">3.0 L</button>
-            </div>
-        </div>
-
-        <!-- Notas de la Semana -->
-        <div class="section-card">
-            <div class="section-title">📝 Notas de la Semana</div>
-            <textarea id="week-notes" class="notes-textarea" placeholder="Apunta aquí tus sensaciones, pesos máximos o cambios de esta semana..." oninput="saveNotes()"></textarea>
-        </div>
-    </div>
-
-    <!-- ================= SCRIPTS DE CONTROL ================= -->
     <script>
-        // Cambiar entre Pestaña Superior de Rutina o Dieta
-        function switchSection(section) {
-            // Desactivar secciones
-            document.querySelectorAll('.main-section').forEach(sec => sec.classList.remove('active'));
-            document.querySelectorAll('.main-tab').forEach(tab => tab.classList.remove('active'));
+        let serieCount = 0;
 
-            // Activar seleccionada
-            document.getElementById('section-' + section).classList.add('active');
-            document.querySelector(`.main-tab[data-section="${section}"]`).classList.add('active');
+        document.addEventListener('DOMContentLoaded', () => {
+            agregarFilaSerie(); // Empieza con una serie lista por defecto
+            mostrarHistorial();
+        });
 
-            // Scroll suave al inicio
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        // Añade una fila de Serie (Peso + Reps) manteniendo el diseño limpio
+        function agregarFilaSerie() {
+            serieCount++;
+            const container = document.getElementById('sets-list');
+            const rowId = `set-row-${serieCount}`;
+
+            const html = `
+                <div class="set-row" id="${rowId}">
+                    <span>S${container.children.length + 1}</span>
+                    <input type="number" class="set-weight" placeholder="Peso (kg)" step="0.5">
+                    <input type="number" class="set-reps" placeholder="Reps" step="1">
+                    <button class="btn-danger" onclick="eliminarFila('${rowId}')">×</button>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', html);
         }
 
-        // Navegación de Sub-categorías (días en rutina, comidas en dieta)
-        function switchSubGroup(type, id) {
-            // Conseguir los botones del tipo correspondiente (rutina o dieta)
-            const tabs = document.querySelectorAll(`.sub-tab[data-type="${type}"]`);
-            tabs.forEach(tab => tab.classList.remove('active'));
-
-            // Ocultar contenidos de ese tipo
-            const groups = document.querySelectorAll(`.content-group.${type}`);
-            groups.forEach(group => group.classList.remove('active'));
-
-            // Buscar y activar el botón correcto
-            const clickedTab = Array.from(tabs).find(tab => tab.getAttribute('onclick').includes(id));
-            if (clickedTab) clickedTab.classList.add('active');
-
-            // Mostrar el grupo seleccionado
-            const targetGroup = document.getElementById(id);
-            if (targetGroup) targetGroup.classList.add('active');
-
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        function eliminarFila(id) {
+            const row = document.getElementById(id);
+            if (row) {
+                row.remove();
+                reordenarNumerosSeries();
+            }
         }
 
-        // Guardado Local de Hidratación
-        function toggleWater(btn, amount) {
-            btn.classList.toggle('checked');
-            // Guardar estado en localStorage
-            const checkedStates = {};
-            document.querySelectorAll('.check-btn').forEach(b => {
-                checkedStates[b.innerText] = b.classList.contains('checked');
+        function reordenarNumerosSeries() {
+            const filas = document.querySelectorAll('#sets-list .set-row');
+            filas.forEach((fila, index) => {
+                fila.querySelector('span').innerText = `S${index + 1}`;
             });
-            localStorage.setItem('hydration', JSON.stringify(checkedStates));
         }
 
-        // Cargar Hidratación al abrir
-        function loadWater() {
-            const saved = localStorage.getItem('hydration');
-            if (saved) {
-                const checkedStates = JSON.parse(saved);
-                document.querySelectorAll('.check-btn').forEach(b => {
-                    if (checkedStates[b.innerText]) {
-                        b.classList.add('checked');
+        // --- Guardado local y persistencia ---
+        
+        function obtenerDatos() {
+            const datos = localStorage.getItem('planCarlosSeriesUnicas');
+            return datos ? JSON.parse(datos) : [];
+        }
+
+        function guardarEntrenamiento() {
+            const nombreEjercicio = document.getElementById('ejercicio-nombre').value.trim();
+            if (!nombreEjercicio) {
+                alert('Por favor, escribe el nombre del ejercicio.');
+                return;
+            }
+
+            const series = [];
+            const filas = document.querySelectorAll('#sets-list .set-row');
+
+            filas.forEach((fila, index) => {
+                const peso = fila.querySelector('.set-weight').value;
+                const reps = fila.querySelector('.set-reps').value;
+                if (peso || reps) {
+                    series.push({
+                        numero: index + 1,
+                        peso: peso || 0,
+                        reps: reps || 0
+                    });
+                }
+            });
+
+            if (series.length === 0) {
+                alert('Añade al menos el peso o las repeticiones de una serie.');
+                return;
+            }
+
+            const nuevoRegistro = {
+                fecha: new Date().toLocaleDateString('es-ES'),
+                hora: new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }),
+                ejercicio: nombreEjercicio,
+                series: series
+            };
+
+            const historial = obtenerDatos();
+            historial.unshift(nuevoRegistro);
+            localStorage.setItem('planCarlosSeriesUnicas', JSON.stringify(historial));
+
+            // Limpiar campos y reiniciar
+            document.getElementById('ejercicio-nombre').value = '';
+            document.getElementById('sets-list').innerHTML = '';
+            agregarFilaSerie();
+            mostrarHistorial();
+            alert('¡Registro guardado con éxito!');
+        }
+
+        function mostrarHistorial() {
+            const historial = obtenerDatos();
+            const contenedor = document.getElementById('historial');
+
+            if (historial.length === 0) {
+                contenedor.innerHTML = '<p style="font-size:12px; color:#666; margin:0;">Aún no tienes series registradas.</p>';
+                return;
+            }
+
+            // Mostramos los últimos 8 registros (puedes ajustar el número)
+            contenedor.innerHTML = historial.slice(0, 8).map((item, index) => {
+                const strSeries = item.series.map(s => `S${s.numero}: <strong>${s.peso} kg</strong> x ${s.reps}`).join(' | ');
+                return `
+                    <div class="log-item">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; font-weight:bold;">
+                            <span>${item.ejercicio}</span>
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <span style="color:#666; font-size:11px;">${item.fecha}</span>
+                                <button class="btn-delete-log" onclick="eliminarRegistro(${index})" title="Borrar registro">×</button>
+                            </div>
+                        </div>
+                        <div style="color:#a0a0ab; font-size:11px;">${strSeries}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // --- Eliminar un registro específico ---
+        function eliminarRegistro(index) {
+            if (confirm('¿Seguro que quieres borrar este registro de tu historial?')) {
+                const historial = obtenerDatos();
+                historial.splice(index, 1); // Elimina el elemento seleccionado del array
+                localStorage.setItem('planCarlosSeriesUnicas', JSON.stringify(historial));
+                mostrarHistorial(); // Actualiza el historial en pantalla
+            }
+        }
+
+        // --- Exportar / Importar ---
+
+        function exportarDatos() {
+            const datos = localStorage.getItem('planCarlosSeriesUnicas');
+            if (!datos || datos === '[]') {
+                alert('No hay registros para exportar.');
+                return;
+            }
+            const blob = new Blob([datos], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `series_carlos_${new Date().toISOString().slice(0,10)}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function importarDatos(evento) {
+            const archivo = evento.target.files[0];
+            if (!archivo) return;
+
+            const lector = new FileReader();
+            lector.onload = function(e) {
+                try {
+                    const datos = JSON.parse(e.target.result);
+                    if (Array.isArray(datos)) {
+                        if (confirm('¿Quieres importar estos registros? Reemplazará lo que tengas ahora en este móvil.')) {
+                            localStorage.setItem('planCarlosSeriesUnicas', JSON.stringify(datos));
+                            mostrarHistorial();
+                            alert('Datos importados correctamente.');
+                        }
+                    } else {
+                        alert('Archivo no válido.');
                     }
-                });
-            }
+                } catch (err) {
+                    alert('Error al leer el archivo.');
+                }
+            };
+            lector.readAsText(archivo);
         }
 
-        // Guardado Local de Notas
-        function saveNotes() {
-            const notes = document.getElementById('week-notes').value;
-            localStorage.setItem('gym_diet_notes', notes);
+        // SW
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('Service Worker registrado'))
+                    .catch(err => console.error(err));
+            });
         }
-
-        // Cargar Notas al abrir
-        function loadNotes() {
-            const saved = localStorage.getItem('gym_diet_notes');
-            if (saved) {
-                document.getElementById('week-notes').value = saved;
-            }
-        }
-
-        // Inicializar datos al cargar la página
-        window.onload = function() {
-            loadWater();
-            loadNotes();
-        };
     </script>
 </body>
 </html>
