@@ -10,10 +10,10 @@
     <meta name="theme-color" content="#ff3838">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link class="app-icon" rel="apple-touch-icon" href="icon-192.png">
+    <link rel="apple-touch-icon" href="icon-192.png">
     
     <style>
-        /* Estructura limpia y estética original */
+        /* Estilos básicos originales */
         body {
             background-color: #0f0f12;
             color: #ffffff;
@@ -53,52 +53,34 @@
         }
         p {
             color: #a0a0ab;
-            font-size: 15px;
+            font-size: 16px;
             line-height: 1.5;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
         }
-        
-        /* Contenedor de entrada de series (Súper integrado y limpio) */
-        .series-box {
-            background: #1f1f27;
-            border-radius: 16px;
-            padding: 15px;
-            margin-bottom: 20px;
-            text-align: left;
-            border: 1px solid rgba(255, 56, 56, 0.1);
-        }
-        .series-box h3 {
-            margin: 0 0 12px 0;
-            color: #ff3838;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .input-group {
-            margin-bottom: 12px;
-        }
-        label {
-            display: block;
-            font-size: 12px;
-            color: #a0a0ab;
-            margin-bottom: 5px;
-        }
-        input {
-            width: 100%;
-            background: #121216;
-            border: 1px solid #2d2d3d;
-            border-radius: 8px;
-            padding: 10px;
+        .btn {
+            background: #ff3838;
             color: white;
-            box-sizing: border-box;
-            font-size: 14px;
+            border: none;
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(255, 56, 56, 0.4);
         }
-        input:focus {
-            border-color: #ff3838;
-            outline: none;
+        .btn:hover {
+            background: #e02f2f;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 56, 56, 0.6);
+        }
+        .btn:active {
+            transform: translateY(0);
         }
 
-        /* Lista de Series Dinámicas */
+        /* Nuevos estilos específicos para las series y el historial (adaptados a tu diseño original) */
         .set-row {
             display: grid;
             grid-template-columns: 1fr 2fr 2fr auto;
@@ -113,40 +95,18 @@
             text-align: center;
         }
         .set-row input {
-            padding: 6px;
-            text-align: center;
-        }
-        
-        /* Botones integrados en la estética original */
-        .btn {
-            background: #ff3838;
-            color: white;
-            border: none;
-            padding: 14px 28px;
-            font-size: 16px;
-            font-weight: 600;
-            border-radius: 12px;
-            cursor: pointer;
-            width: 100%;
-            box-sizing: border-box;
-            transition: transform 0.2s, background-color 0.2s;
-            box-shadow: 0 4px 15px rgba(255, 56, 56, 0.4);
-            margin-top: 10px;
-        }
-        .btn:hover {
-            background: #e02f2f;
-        }
-        .btn-add-set {
-            background: #2d2d3d;
-            color: #ffffff;
-            font-size: 12px;
-            padding: 8px;
+            background: #121216;
+            border: 1px solid #2d2d3d;
             border-radius: 8px;
-            box-shadow: none;
-            margin-bottom: 15px;
+            padding: 8px;
+            color: white;
+            box-sizing: border-box;
+            text-align: center;
+            font-size: 14px;
         }
-        .btn-add-set:hover {
-            background: #3d3d52;
+        .set-row input:focus {
+            border-color: #ff3838;
+            outline: none;
         }
         .btn-danger {
             background: transparent;
@@ -157,35 +117,6 @@
             font-size: 16px;
             padding: 0 5px;
         }
-
-        /* Botón específico para borrar del historial */
-        .btn-delete-log {
-            background: transparent;
-            color: #ff4d4d;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 14px;
-            padding: 0 4px;
-            transition: color 0.2s;
-        }
-        .btn-delete-log:hover {
-            color: #ff1a1a;
-        }
-
-        /* Historial y Copias de Seguridad */
-        .history-section {
-            margin-top: 25px;
-            border-top: 1px solid #2d2d3d;
-            padding-top: 20px;
-            text-align: left;
-        }
-        .history-title {
-            font-size: 14px;
-            color: #a0a0ab;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
         .log-item {
             background: #121216;
             padding: 10px;
@@ -194,23 +125,14 @@
             font-size: 13px;
             border-left: 3px solid #ff3838;
         }
-        .backup-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-top: 15px;
-        }
-        .btn-sec {
-            background: #2d2d3d;
-            color: white;
+        .btn-delete-log {
+            background: transparent;
+            color: #ff4d4d;
             border: none;
-            padding: 8px;
-            font-size: 12px;
-            border-radius: 6px;
             cursor: pointer;
-        }
-        #file-input {
-            display: none;
+            font-weight: bold;
+            font-size: 14px;
+            padding: 0 4px;
         }
     </style>
 </head>
@@ -218,50 +140,48 @@
 
     <div class="container">
         <div class="logo-container">
-            <img src="icon-192.png" alt="Logo">
+            <img src="icon-192.png" alt="Logo Plan Carlos García">
         </div>
         <h1>Plan Carlos García</h1>
-        <p>Registra tus series de hoy de forma rápida.</p>
+        <p>Tu rutina de entrenamiento personalizada y control de dieta listos para llevar a cualquier parte.</p>
 
-        <!-- BLOQUE DE REGISTRO INTEGRADO -->
-        <div class="series-box">
-            <h3>Nueva Entrada</h3>
-            
-            <div class="input-group">
-                <label for="ejercicio-nombre">Ejercicio:</label>
-                <input type="text" id="ejercicio-nombre" placeholder="Ej: Press de Banca">
+        <!-- SECCIÓN DE REGISTRO INTEGRADA -->
+        <div style="text-align: left; margin-top: 20px; border-top: 1px solid rgba(255, 56, 56, 0.2); padding-top: 20px;">
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; font-size: 13px; color: #a0a0ab; margin-bottom: 5px;">Ejercicio:</label>
+                <input type="text" id="ejercicio-nombre" placeholder="Ej: Press de Banca" style="width: 100%; background: #121216; border: 1px solid #2d2d3d; border-radius: 8px; padding: 10px; color: white; box-sizing: border-box; font-size: 14px; font-family: inherit;">
             </div>
 
-            <!-- Aquí se van sumando las filas de series -->
+            <!-- Listado dinámico de series -->
             <div id="sets-list"></div>
             
-            <button class="btn btn-add-set" onclick="agregarFilaSerie()">+ Añadir Serie</button>
+            <button class="btn" style="background: #2d2d3d; box-shadow: none; padding: 8px; font-size: 13px; border-radius: 8px; margin-bottom: 15px; width: 100%;" onclick="agregarFilaSerie()">+ Añadir Serie</button>
+            <button class="btn" style="width: 100%;" onclick="guardarEntrenamiento()">Guardar Registro</button>
         </div>
 
-        <button class="btn" onclick="guardarEntrenamiento()">Guardar Registro</button>
-
-        <!-- HISTORIAL COMPACTO -->
-        <div class="history-section">
-            <div class="history-title">Historial Reciente</div>
-            <div id="historial"></div>
+        <!-- SECCIÓN DE HISTORIAL Y COPIAS -->
+        <div style="text-align: left; margin-top: 25px; border-top: 1px solid rgba(255, 56, 56, 0.2); padding-top: 20px;">
+            <h3 style="font-size: 14px; color: #ff3838; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 1px;">Historial Reciente</h3>
+            <div id="historial" style="max-height: 180px; overflow-y: auto; margin-bottom: 15px;"></div>
             
-            <div class="backup-buttons">
-                <button class="btn-sec" onclick="exportarDatos()">Exportar copia</button>
-                <button class="btn-sec" onclick="document.getElementById('file-input').click()">Importar copia</button>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                <button class="btn" style="background: #2d2d3d; box-shadow: none; padding: 8px; font-size: 12px; border-radius: 8px;" onclick="exportarDatos()">Exportar copia</button>
+                <button class="btn" style="background: #2d2d3d; box-shadow: none; padding: 8px; font-size: 12px; border-radius: 8px;" onclick="document.getElementById('file-input').click()">Importar copia</button>
             </div>
-            <input type="file" id="file-input" accept=".json" onchange="importarDatos(event)">
+            <input type="file" id="file-input" accept=".json" style="display: none;" onchange="importarDatos(event)">
         </div>
     </div>
 
+    <!-- Scripts de funcionalidad, persistencia y Service Worker -->
     <script>
         let serieCount = 0;
 
         document.addEventListener('DOMContentLoaded', () => {
-            agregarFilaSerie(); // Empieza con una serie lista por defecto
+            agregarFilaSerie(); // Inicia con una fila de serie vacía
             mostrarHistorial();
         });
 
-        // Añade una fila de Serie (Peso + Reps) manteniendo el diseño limpio
+        // Añade series de forma dinámica manteniendo el diseño
         function agregarFilaSerie() {
             serieCount++;
             const container = document.getElementById('sets-list');
@@ -293,8 +213,8 @@
             });
         }
 
-        // --- Guardado local y persistencia ---
-        
+        // --- Almacenamiento local (LocalStorage) ---
+
         function obtenerDatos() {
             const datos = localStorage.getItem('planCarlosSeriesUnicas');
             return datos ? JSON.parse(datos) : [];
@@ -338,7 +258,7 @@
             historial.unshift(nuevoRegistro);
             localStorage.setItem('planCarlosSeriesUnicas', JSON.stringify(historial));
 
-            // Limpiar campos y reiniciar
+            // Reiniciar campos tras guardar
             document.getElementById('ejercicio-nombre').value = '';
             document.getElementById('sets-list').innerHTML = '';
             agregarFilaSerie();
@@ -351,11 +271,10 @@
             const contenedor = document.getElementById('historial');
 
             if (historial.length === 0) {
-                contenedor.innerHTML = '<p style="font-size:12px; color:#666; margin:0;">Aún no tienes series registradas.</p>';
+                contenedor.innerHTML = '<p style="font-size:12px; color:#666; margin:0; text-align:center;">Sin series registradas.</p>';
                 return;
             }
 
-            // Mostramos los últimos 8 registros (puedes ajustar el número)
             contenedor.innerHTML = historial.slice(0, 8).map((item, index) => {
                 const strSeries = item.series.map(s => `S${s.numero}: <strong>${s.peso} kg</strong> x ${s.reps}`).join(' | ');
                 return `
@@ -373,17 +292,16 @@
             }).join('');
         }
 
-        // --- Eliminar un registro específico ---
         function eliminarRegistro(index) {
             if (confirm('¿Seguro que quieres borrar este registro de tu historial?')) {
                 const historial = obtenerDatos();
-                historial.splice(index, 1); // Elimina el elemento seleccionado del array
+                historial.splice(index, 1);
                 localStorage.setItem('planCarlosSeriesUnicas', JSON.stringify(historial));
-                mostrarHistorial(); // Actualiza el historial en pantalla
+                mostrarHistorial();
             }
         }
 
-        // --- Exportar / Importar ---
+        // --- Exportación / Importación ---
 
         function exportarDatos() {
             const datos = localStorage.getItem('planCarlosSeriesUnicas');
@@ -417,7 +335,7 @@
                             alert('Datos importados correctamente.');
                         }
                     } else {
-                        alert('Archivo no válido.');
+                        alert('Archivo de copia no válido.');
                     }
                 } catch (err) {
                     alert('Error al leer el archivo.');
@@ -426,12 +344,12 @@
             lector.readAsText(archivo);
         }
 
-        // SW
+        // Registro del Service Worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js')
-                    .then(reg => console.log('Service Worker registrado'))
-                    .catch(err => console.error(err));
+                    .then(reg => console.log('Service Worker registrado con éxito:', reg.scope))
+                    .catch(err => console.error('Error al registrar el Service Worker:', err));
             });
         }
     </script>
